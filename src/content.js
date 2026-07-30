@@ -9,7 +9,7 @@ export const profile = {
   eyebrow: "My Taaluma Story",
   tagline:
     "I build for the version of me who once had no plan — and moved anyway.",
-  photo: "/me.jpg",
+  photo: `${import.meta.env.BASE_URL}me.jpg`,
   initials: "PW",
 };
 
