@@ -1,0 +1,153 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #08090c;
+  --color-ink-2: #0e1015;
+  --color-ink-3: #14171e;
+  --color-line: #232733;
+  --color-sand: #f4efe8;
+  --color-muted: #8d95a5;
+  --color-ember: #e8933f;
+  --color-ember-2: #c9702a;
+  --color-moss: #7fb08a;
+
+  --font-sans: "Nunito Sans", ui-sans-serif, system-ui, -apple-system,
+    sans-serif;
+  --font-heading: "Nunito Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", "JetBrains Mono", "Menlo",
+    monospace;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-color: var(--color-ink);
+    color: var(--color-sand);
+    font-family: var(--font-sans);
+  }
+
+  ::selection {
+    background-color: var(--color-ember);
+    color: #08090c;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-ink);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-line);
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-ember-2);
+  }
+}
+
+/* Soft film grain over the whole page — keeps large dark areas from banding */
+.grain-overlay {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.32'/%3E%3C/svg%3E");
+}
+
+/* --- scroll reveal --- */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* --- print: collapse the experience into a clean, compact paper story --- */
+@media print {
+  @page {
+    margin: 12mm;
+  }
+
+  /* Tailwind sizing is rem-based, so one lever scales the whole layout down. */
+  html {
+    font-size: 9.5px;
+  }
+
+  html,
+  body,
+  #root,
+  #root > div,
+  main,
+  section,
+  footer {
+    background: #ffffff !important;
+    color: #101319 !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .print-tight {
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+    min-height: 0 !important;
+  }
+
+  section {
+    padding-top: 1.1rem !important;
+    padding-bottom: 1.1rem !important;
+  }
+
+  .print-break {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .print-ink {
+    color: #101319 !important;
+  }
+
+  .print-muted {
+    color: #4a5262 !important;
+  }
+
+  .print-panel {
+    background: #ffffff !important;
+    border-color: #d8dbe2 !important;
+    box-shadow: none !important;
+  }
+
+  /* keep the portrait from eating a whole sheet */
+  .print-portrait {
+    max-width: 14rem !important;
+  }
+
+  a[href]::after {
+    content: none !important;
+  }
+}
